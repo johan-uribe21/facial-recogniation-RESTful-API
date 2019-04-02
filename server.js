@@ -1,5 +1,6 @@
 const express= require('express');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt-nodejs');
 
 // starts the server using express
 const app = express();
@@ -13,7 +14,6 @@ const database = {
       id: '123',
       name: 'John',
       email: 'john@gmail.com',
-      password: 'cookies',
       entries: 0,
       joined: new Date()
     },
@@ -21,11 +21,17 @@ const database = {
       id: '124',
       name: 'Sally',
       email: 'Sally@gmail.com',
-      password: 'bananas',
       entries: 0,
       joined: new Date()
     }
   ],
+  login: [
+    {
+      id: '987',
+      hash: '',
+      email: 'john@gmail.com'
+    }
+  ]
 };
 
 // root route to see if server is working and responding
@@ -37,6 +43,12 @@ app.get('/', (req, res) => {
 // we want to hide the password in an https post request rather than 
 // leaving it visible in a get request
 app.post('/signin', (req, res) => {
+  bcrypt.compare("bacon", hash, function(err, res) {
+    // res == true
+  });
+  bcrypt.compare("veggies", hash, function(err, res) {
+    // res = false
+  });
   if(req.body.email === database.users[0].email &&
     req.body.password === database.users[0].password){
       res.json('success')
@@ -46,6 +58,7 @@ app.post('/signin', (req, res) => {
   res.json('signin')
 })
 
+// push a new user object into the database user-array
 app.post('/register', (req, res) => {
   const {email, name, password} = req.body;
   database.users.push({
@@ -56,6 +69,7 @@ app.post('/register', (req, res) => {
     entries: 0,
     joined: new Date()
   })
+  // returns the number of total users
   res.json(database.users[database.users.length-1]);
 })
 
@@ -87,6 +101,18 @@ app.put('/image', (req, res) => {
 app.listen(3000, () => {
   console.log('app is running on port 3000');
 })
+
+// bcrypt.hash("bacon", null, null, function(err, hash) {
+//   // Store hash in your password DB.
+// });
+
+// // Load hash from your password DB.
+// bcrypt.compare("bacon", hash, function(err, res) {
+//   // res == true
+// });
+// bcrypt.compare("veggies", hash, function(err, res) {
+//   // res = false
+// });
 
 
 /*
