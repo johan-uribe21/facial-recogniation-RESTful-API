@@ -1,11 +1,13 @@
 const express= require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
+const cors = require('cors');
 
 // starts the server using express
 const app = express();
 // loads the middleware which automatically parses all json
 app.use(bodyParser.json());
+app.use(cors());
 
 // a fake database since we have not built real database yet
 const database = {
@@ -13,6 +15,7 @@ const database = {
     {
       id: '123',
       name: 'John',
+      password: 'cookies',
       email: 'john@gmail.com',
       entries: 0,
       joined: new Date()
@@ -20,6 +23,7 @@ const database = {
     {
       id: '124',
       name: 'Sally',
+      password: 'bananas',
       email: 'Sally@gmail.com',
       entries: 0,
       joined: new Date()
@@ -43,15 +47,15 @@ app.get('/', (req, res) => {
 // we want to hide the password in an https post request rather than 
 // leaving it visible in a get request
 app.post('/signin', (req, res) => {
-  bcrypt.compare("bacon", hash, function(err, res) {
-    // res == true
-  });
-  bcrypt.compare("veggies", hash, function(err, res) {
-    // res = false
-  });
+  // bcrypt.compare("bacon", hash, function(err, res) {
+  //   // res == true
+  // });
+  // bcrypt.compare("veggies", hash, function(err, res) {
+  //   // res = false
+  // });
   if(req.body.email === database.users[0].email &&
     req.body.password === database.users[0].password){
-      res.json('success')
+      res.json(database.users[0]);
   } else {
     res.status(400).json('error logging in');
   }
@@ -69,7 +73,7 @@ app.post('/register', (req, res) => {
     entries: 0,
     joined: new Date()
   })
-  // returns the number of total users
+  // returns the last user added
   res.json(database.users[database.users.length-1]);
 })
 
