@@ -13,7 +13,7 @@ const image = require('./controllers/image');
 const db = knex({
   client: 'pg',
   connection: {
-    host : '127.0.0.1', // local host
+    host : 'postgresql-vertical-99627', // heroku url to database
     user : '',
     password : '',
     database : 'smart-brain'
