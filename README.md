@@ -1,6 +1,6 @@
 ## Facial recognition API
 
-A RESTful API created using Node.js, Express, and bcrypt. The api provides the following functionality"
+A RESTful API created using Node.js, Express, and bcrypt. The api provides the following functionality:
 
 ## Registration
 API accepts name, email, and password from a registration form via a POST request, uses bcrypt to create a password-hash, and then stores the name, email, and password-hash in a PostgreSQL database.
