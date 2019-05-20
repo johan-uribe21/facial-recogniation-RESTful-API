@@ -3,10 +3,13 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
+const morgan = require('morgan');
+
 const register = require ('./controllers/register');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
 const image = require('./controllers/image');
+
 
 
 // initializes the connection to the database over the local host
@@ -22,6 +25,7 @@ const db = knex({
 const app = express();
 // loads the middleware which parses all json and does the cors
 app.use(bodyParser.json());
+app.use(morgan('tiny'));
 app.use(cors());
 
 // root route to see if server is working and responding
