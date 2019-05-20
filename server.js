@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
 const morgan = require('morgan');
+const helmet = require('helmet');
 
 const register = require ('./controllers/register');
 const signin = require('./controllers/signin');
@@ -27,6 +28,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 app.use(cors());
+app.use(helmet());
 
 // root route to see if server is working and responding
 app.get('/', (req, res) => {res.json("Server is live")});
